@@ -1,9 +1,14 @@
 const router = require("express").Router();
+const multer = require("multer");
+const upload = multer();
 const { requireAuth, requireRole } = require("../middleware/auth");
 const ctrl = require("../controllers/managerController");
 
+// All manager routes require auth and manager/admin role
 router.use(requireAuth, requireRole("manager", "admin"));
 router.get("/projects",                 ctrl.getMyProjects);
+// Accept multipart/form-data for creating projects (images optional)
+router.post("/projects",                upload.array('images'), ctrl.addProject);
 router.put("/projects/:id/progress",    ctrl.updateProgress);
 router.get("/projects/:id/milestones",  ctrl.getMilestones);
 router.post("/projects/:id/milestones", ctrl.addMilestone);

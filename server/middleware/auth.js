@@ -2,11 +2,21 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 const requireAuth = async (req, res, next) => {
+  // Log incoming request headers for debugging token issues
+  try {
+    console.log("[AUTH] Incoming request:", req.method, req.originalUrl);
+    console.log("[AUTH] Request headers:", JSON.stringify(req.headers));
+  } catch (e) {
+    // ignore logging errors
+  }
+
   const token =
     req.headers["x-auth-token"] ||
     (req.headers.authorization?.startsWith("Bearer ")
       ? req.headers.authorization.split(" ")[1]
       : null);
+
+  console.log("[AUTH] Extracted token:", token ? `${token.substring(0, 20)}...` : null);
 
   if (!token) {
     return res.status(401).json({ success: false, message: "Unauthorized — no token" });

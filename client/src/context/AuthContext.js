@@ -12,6 +12,8 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     if (!token) { setLoading(false); return; }
 
+    console.log('[Auth] useEffect: token present on mount (preview):', token ? token.substring(0,20) + '...' : null);
+
     api.get("/auth/me")
       .then((data) => {
         if (data.success) setUser(data.user);
@@ -21,11 +23,13 @@ export function AuthProvider({ children }) {
       .finally(() => setLoading(false));
   }, [token]); // eslint-disable-line
 
-  const login = useCallback(async (email, password, startDate) => {
-    const data = await api.post("/auth/login", { email, password, startDate });
+  const login = useCallback(async (email, password) => {
+    email = email?.trim().toLowerCase();
+    password = password?.trim();
+    const data = await api.post("/auth/login", { email, password });
     if (!data.success) throw new Error(data.message);
-
     localStorage.setItem("zx_token", data.token);
+    console.log('[Auth] login: stored zx_token (preview):', data.token ? data.token.substring(0,20) + '...' : null);
     setToken(data.token);
     setUser({ id: data.id, name: data.name, email: data.email, role: data.role });
     return data.role;

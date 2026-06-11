@@ -12,7 +12,6 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [startDate, setStartDate] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,8 +23,8 @@ export default function SignupPage() {
     setError("");
     setSuccess("");
 
-    if (!name || !email || !password || !startDate) {
-      setError("Name, email, password, and start date are required.");
+    if (!name || !email || !password) {
+      setError("Name, email, and password are required.");
       return;
     }
 
@@ -36,13 +35,12 @@ export default function SignupPage() {
 
     setLoading(true);
     try {
-      await api.post("/auth/signup", { name, email, password, startDate });
+      await api.post("/auth/signup", { name, email, password });
       setSuccess("Account created successfully. Please sign in.");
       setName("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
-      setStartDate("");
       setTimeout(() => navigate("/login", { replace: true }), 1200);
     } catch (err) {
       setError(err.message || "Signup failed");
@@ -89,17 +87,6 @@ export default function SignupPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
-              required
-            />
-          </div>
-
-          <div className="login-field">
-            <label htmlFor="startDate">Start Date</label>
-            <input
-              id="startDate"
-              type="date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
               required
             />
           </div>

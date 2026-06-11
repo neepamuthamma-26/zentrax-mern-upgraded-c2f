@@ -13,11 +13,10 @@ export default function LoginPage() {
   const { user, login } = useAuth();
   const navigate        = useNavigate();
 
-  const [email,     setEmail]     = useState("");
-  const [password,  setPassword]  = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [error,     setError]     = useState("");
-  const [loading,   setLoading]   = useState(false);
+  const [email,    setEmail]    = useState("");
+  const [password, setPassword] = useState("");
+  const [error,    setError]    = useState("");
+  const [loading,  setLoading]  = useState(false);
 
   // Already logged in — go to dashboard
   if (user) return <Navigate to={`/${user.role}`} replace />;
@@ -27,7 +26,7 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
     try {
-      const role = await login(email, password, startDate);
+      const role = await login(email, password);
       navigate(`/${role}`, { replace: true });
     } catch (err) {
       setError(err.message || "Login failed");
@@ -72,17 +71,6 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
               autoComplete="email"
-              required
-            />
-          </div>
-
-          <div className="login-field">
-            <label htmlFor="startDate">Start Date</label>
-            <input
-              id="startDate"
-              type="date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
               required
             />
           </div>

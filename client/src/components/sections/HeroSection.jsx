@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 
 /* ──────────────────────────────────────────────────────
@@ -81,26 +80,18 @@ function HeroSection() {
 
       {/* ── Hero content (UNCHANGED) ──────────────────────── */}
       <div className="hero-content reveal">
-        <div className="hero-logo-wrap">
-          <div className="hero-logo-bg">
-            <img src={logo} alt="Zentrax" className="hero-logo" />
-          </div>
-          <div className="hero-brand-name">
-            <span className="hero-brand-main">ZENTRAX</span>
-            <span className="hero-brand-sub">CONSTRUCTION</span>
-          </div>
+        <div className="hero-brand-name hero-brand-main-row">
+          <span className="hero-brand-main">ZENTRAX</span>
+          <span className="hero-brand-sub">CONSTRUCTION</span>
         </div>
         <div className="hero-divider"></div>
-        <p className="hero-sub">Architecture &amp; Engineering Excellence</p>
-        <h1 className="hero-title">
-          Where Vision
-          <br />
-          <em>Meets Execution</em>
-        </h1>
-        <p className="hero-desc">Engineering Modern Spaces with Precision &amp; Excellence</p>
+        <h1 className="hero-title">One Stop Solution For All Construction And Manpower Related Work</h1>
+        <p className="hero-desc">
+          Providing skilled manpower, construction support, material assistance, planning services, and workforce solutions across multiple industries.
+        </p>
         <div className="hero-btns">
-          <Link to="/login" className="btn-gold">Login</Link>
-          <Link to="/signup" className="btn-outline">Signup</Link>
+          <a href="#contact" className="btn-gold">Hire Workers Now</a>
+          <a href="tel:+918911170406" className="btn-outline">Call +91 8911170406</a>
         </div>
       </div>
 

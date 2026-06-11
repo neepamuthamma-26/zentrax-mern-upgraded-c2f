@@ -14,6 +14,34 @@ const getMyProjects = async (req, res) => {
   }
 };
 
+// POST /api/manager/projects
+const addProject = async (req, res) => {
+  // Accept form-data or json. If multipart, fields are in req.body and files in req.files
+  try {
+    console.log('[MANAGER] addProject - req.user:', req.user ? req.user._id : null);
+    console.log('[MANAGER] addProject - body:', req.body);
+    console.log('[MANAGER] addProject - files:', Array.isArray(req.files) ? req.files.map(f=>f.originalname) : req.files);
+
+    const { title, description, location, status, draft } = req.body || {};
+    if (!title) return res.status(400).json({ success: false, message: "Title required" });
+
+    const project = await Project.create({
+      title,
+      description,
+      location,
+      status: status || (draft === '1' || draft === 'true' ? 'draft' : 'pending'),
+      managerId: req.user._id,
+    });
+
+    // NOTE: file saving / uploads not implemented here. Attachments can be saved
+    // via Upload model or external storage in a follow-up change.
+
+    res.json({ success: true, id: project._id });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
 // PUT /api/manager/projects/:id/progress
 const updateProgress = async (req, res) => {
   const { completion, status } = req.body;
@@ -106,7 +134,7 @@ const addSpec = async (req, res) => {
 };
 
 module.exports = {
-  getMyProjects, updateProgress,
+  getMyProjects, addProject, updateProgress,
   getMilestones, addMilestone, toggleMilestone,
   addUpload, getUploads,
   getSpecs, addSpec,

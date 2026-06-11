@@ -9,6 +9,7 @@ import LoginPage        from "./pages/LoginPage";
 import SignupPage       from "./pages/SignupPage";
 import AdminDashboard   from "./pages/AdminDashboard";
 import ManagerDashboard from "./pages/ManagerDashboard";
+import Layout from "./components/layout/Layout";
 import ClientDashboard  from "./pages/ClientDashboard";
 import NotFound         from "./pages/NotFound";
 
@@ -62,7 +63,9 @@ export default function App() {
             path="/admin/*"
             element={
               <ProtectedRoute allowedRole="admin">
-                <AdminDashboard />
+                <Layout>
+                  <AdminDashboard />
+                </Layout>
               </ProtectedRoute>
             }
           />
@@ -70,7 +73,9 @@ export default function App() {
             path="/manager/*"
             element={
               <ProtectedRoute allowedRole="manager">
-                <ManagerDashboard />
+                <Layout>
+                  <ManagerDashboard />
+                </Layout>
               </ProtectedRoute>
             }
           />

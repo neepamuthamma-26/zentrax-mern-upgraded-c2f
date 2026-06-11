@@ -123,6 +123,15 @@ const addClient = async (req, res) => {
   }
 };
 
+const removeClient = async (req, res) => {
+  try {
+    await User.findOneAndDelete({ _id: req.params.id, role: "client" });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
 // ── Feedback & Uploads ────────────────────────────────────────────────────────
 const getFeedback = async (req, res) => {
   try {
@@ -151,5 +160,5 @@ const getUploads = async (req, res) => {
 module.exports = {
   getStats, getManagers, addManager, removeManager,
   getProjects, addProject, assignProject, deleteProject,
-  getClients, addClient, getFeedback, getUploads,
+  getClients, addClient, removeClient, getFeedback, getUploads,
 };

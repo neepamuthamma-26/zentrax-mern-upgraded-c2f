@@ -2,6 +2,7 @@ import "../assets/style.css";
 import LoaderSection from "./sections/LoaderSection";
 import NavbarSection from "./sections/NavbarSection";
 import HeroSection from "./sections/HeroSection";
+import ServicesSection from "./sections/ServicesSection";
 import PhilosophySection from "./sections/PhilosophySection";
 import StatsSection from "./sections/StatsSection";
 import PortfolioSection from "./sections/PortfolioSection";
@@ -23,6 +24,7 @@ function Zentrax() {
       <LoaderSection />
       <NavbarSection />
       <HeroSection />
+      <ServicesSection />
       <PhilosophySection />
       <StatsSection />
       <PortfolioSection />
