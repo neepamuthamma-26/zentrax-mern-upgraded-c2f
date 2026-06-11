@@ -20,6 +20,7 @@ function PropertyModalSection() {
           </div>
           <div className="prop-modal-badge" id="modalBadge"></div>
           <div className="gallery-thumbs" id="galleryThumbs" aria-label="Property image thumbnails"></div>
+          <div className="gallery-dots" id="galleryDots" aria-label="Property image pagination"></div>
         </div>
         <div className="prop-modal-body">
           <div className="prop-modal-cat" id="modalCat"></div>

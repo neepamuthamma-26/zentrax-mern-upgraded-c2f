@@ -1,63 +1,5 @@
 import { useEffect } from "react";
-
-const MODAL_DATA = {
-	vertex: {
-		title: "Vertex Tower",
-		cat: "Mixed-Use Development",
-		location: "Mysuru, Karnataka",
-		desc: "A landmark mixed-use tower combining premium office spaces with luxury residences. Designed for the modern professional, Vertex Tower offers world-class amenities and breathtaking city views.",
-		status: "Completed - 2025",
-		price: "Contact for Pricing",
-		badge: "Commercial & Residential",
-		img: "https://images.unsplash.com/photo-1567157577867-05ccb1388e66?w=800&q=80",
-	},
-	coastal: {
-		title: "Coastal Residence",
-		cat: "Luxury Living",
-		location: "Mysuru, Karnataka",
-		desc: "An exclusive coastal-inspired residential community featuring premium 2 & 3 BHK apartments with open-plan layouts, natural light, and high-end finishes throughout.",
-		status: "Completed - 2025",
-		price: "Available on Request",
-		badge: "Luxury Residential",
-		img: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80",
-	},
-	innovation: {
-		title: "Innovation Center",
-		cat: "Corporate Campus",
-		location: "Mysuru, Karnataka",
-		desc: "A state-of-the-art corporate campus built to inspire collaboration and creativity. Features open-plan workspaces, conference suites, and sustainable design elements.",
-		status: "Completed - 2025",
-		price: "Lease Enquiry Open",
-		badge: "Corporate Campus",
-		img: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
-	},
-	township: {
-		title: "Residential Township",
-		cat: "Planned Community",
-		location: "Ilavala Hobli, Mysuru",
-		desc: "A thoughtfully planned residential township with integrated green spaces, community facilities, and premium homes. Vastu-compliant layouts with modern infrastructure.",
-		status: "Completed - 2024",
-		price: "Units Available",
-		badge: "Planned Community",
-		img: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80",
-	},
-	hombelaku: {
-		title: "Hombelaku Residences",
-		cat: "Residential Property",
-		location: "#44, Hombelaku, Ilavala Hobli, Mysuru",
-		desc: "A premium multi-storey residential building offering spacious, Vastu-compliant homes with modern architecture, dedicated parking, and 24/7 security. Available for immediate lease.",
-		status: "Available for Lease",
-		price: "Contact for Lease Rate",
-		badge: "Available Now",
-		images: [
-			"/images/hombelaku.jpeg",
-			"/images/hombelaku2.jpeg",
-			"/images/hombelaku3.jpeg",
-			"/images/hombelaku4.jpeg",
-		],
-		img: "/images/hombelaku.jpeg",
-	},
-};
+import MODAL_DATA from "../data/propertyModalData";
 
 function useZentraxEffects() {
 	useEffect(() => {
@@ -420,6 +362,7 @@ function useZentraxEffects() {
 		const galleryNext = document.getElementById("galleryNext");
 		const galleryCounter = document.getElementById("galleryCounter");
 		const galleryThumbs = document.getElementById("galleryThumbs");
+		const galleryDots = document.getElementById("galleryDots");
 
 		let galleryImages = [];
 		let galleryIndex = 0;
@@ -439,11 +382,18 @@ function useZentraxEffects() {
 			galleryNext.style.display = total > 1 ? "flex" : "none";
 			galleryCounter.style.display = total > 1 ? "block" : "none";
 			galleryThumbs.style.display = total > 1 ? "flex" : "none";
+			galleryDots.style.display = total > 1 ? "flex" : "none";
 
 			galleryThumbs.querySelectorAll(".gallery-thumb").forEach((thumb) => {
 				const thumbIndex = parseInt(thumb.dataset.i || "0", 10);
 				thumb.classList.toggle("active", thumbIndex === index);
 			});
+			if (galleryDots) {
+				galleryDots.querySelectorAll(".gallery-dot").forEach((dot) => {
+					const dotIndex = parseInt(dot.dataset.i || "0", 10);
+					dot.classList.toggle("active", dotIndex === index);
+				});
+			}
 		};
 
 		const renderGalleryThumbs = (images) => {
@@ -461,6 +411,23 @@ function useZentraxEffects() {
 					updateGalleryState();
 				});
 				galleryThumbs.appendChild(thumb);
+			});
+		};
+
+		const renderGalleryDots = (images) => {
+			if (!galleryDots) return;
+			galleryDots.innerHTML = "";
+			images.forEach((_, i) => {
+				const dot = document.createElement("button");
+				dot.type = "button";
+				dot.className = "gallery-dot";
+				dot.dataset.i = String(i);
+				dot.setAttribute("aria-label", `Go to image ${i + 1}`);
+				dot.addEventListener("click", () => {
+					galleryIndex = i;
+					updateGalleryState();
+				});
+				galleryDots.appendChild(dot);
 			});
 		};
 
@@ -504,9 +471,10 @@ function useZentraxEffects() {
 				return;
 			}
 
-			galleryImages = Array.isArray(d.images) && d.images.length ? d.images : [d.img || ""]; 
+			galleryImages = Array.isArray(d.images) && d.images.length ? d.images : [d.img || ""];
 			galleryIndex = 0;
 			renderGalleryThumbs(galleryImages);
+			renderGalleryDots(galleryImages);
 			updateGalleryState();
 
 			modalBadge.textContent = d.badge;
@@ -586,6 +554,12 @@ function useZentraxEffects() {
 		const onEsc = (e) => {
 			if (e.key === "Escape") {
 				closeModal();
+			}
+			if (e.key === "ArrowLeft") {
+				changeGalleryImage(-1);
+			}
+			if (e.key === "ArrowRight") {
+				changeGalleryImage(1);
 			}
 		};
 		document.addEventListener("keydown", onEsc);

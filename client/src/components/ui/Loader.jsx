@@ -1,0 +1,5 @@
+import React from "react";
+
+export default function Loader({ className = "" }) {
+  return <div className={`zentrax-loader ${className}`.trim()} aria-label="loading" />;
+}

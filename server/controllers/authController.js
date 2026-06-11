@@ -7,10 +7,11 @@ const signToken = (id) =>
 
 // POST /api/auth/signup
 const signup = async (req, res) => {
-  const { name, email, password, startDate } = req.body;
+  let { name, email, password, startDate } = req.body;
+  email = email?.trim().toLowerCase();
 
-  if (!name || !email || !password || !startDate) {
-    return res.status(400).json({ success: false, message: "Name, email, password and start date are required" });
+  if (!name || !email || !password) {
+    return res.status(400).json({ success: false, message: "Name, email, and password are required" });
   }
 
   try {
@@ -42,7 +43,9 @@ const signup = async (req, res) => {
 
 // POST /api/auth/login
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  let { email, password } = req.body;
+  email = email?.trim().toLowerCase();
+  password = password?.trim();
 
   if (!email || !password) {
     return res.status(400).json({ success: false, message: "Email and password required" });

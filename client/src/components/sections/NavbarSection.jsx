@@ -45,6 +45,14 @@ function NavbarSection() {
               <a href="#properties">Properties</a>
             </li>
             <li>
+              <Link to="/login">Login</Link>
+            </li>
+            <li>
+              <Link to="/signup" className="nav-cta">
+                Signup
+              </Link>
+            </li>
+            <li>
               <a href="#contact" className="nav-cta">
                 Contact
               </a>
@@ -62,6 +70,8 @@ function NavbarSection() {
           <a href="#portfolio">Portfolio</a>
           <a href="#capabilities">Capabilities</a>
           <a href="#properties">Properties</a>
+          <a href="/login">Login</a>
+          <a href="/signup">Signup</a>
           <a href="#contact">Contact</a>
         </div>
       </nav>

@@ -14,9 +14,19 @@ connectDB();
 app.use(cors({
   origin: process.env.CLIENT_URL || "http://localhost:3000",
   credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization", "x-auth-token"],
 }));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+
+// Global request logger for debugging
+app.use((req, res, next) => {
+  try {
+    console.log(`[REQ] ${req.method} ${req.originalUrl}`);
+    console.log(`[REQ] headers: ${JSON.stringify(req.headers)}`);
+  } catch (e) {}
+  next();
+});
 
 // ── API Routes ────────────────────────────────────────────────────────────────
 app.use("/api/auth",    require("./routes/authRoutes"));

@@ -13,7 +13,10 @@ class ApiClient {
    * Get token from localStorage
    */
   getToken() {
-    return localStorage.getItem("zx_token") || null;
+    const t = localStorage.getItem("zx_token") || null;
+    if (t) console.log('[API] getToken -> zx_token preview:', t.substring(0,20) + '...');
+    else console.warn('[API] getToken -> no zx_token found in localStorage');
+    return t;
   }
 
   /**
@@ -21,9 +24,14 @@ class ApiClient {
    */
   getHeaders(customHeaders = {}) {
     const token = this.getToken();
+    if (token) {
+      console.log("[API] Token found:", token.substring(0, 20) + "...");
+    } else {
+      console.warn("[API] No token in localStorage");
+    }
     return {
       "Content-Type": "application/json",
-      ...(token && { "x-auth-token": token }),
+      ...(token && { "x-auth-token": token, Authorization: `Bearer ${token}` }),
       ...customHeaders,
     };
   }
@@ -75,12 +83,32 @@ class ApiClient {
    */
   async post(endpoint, body, options = {}) {
     const url = `${this.baseURL}${endpoint}`;
-    const response = await fetch(url, {
+    const isFormData = body instanceof FormData;
+    
+    // For FormData, don't set Content-Type (let browser set it with boundary)
+    // and don't stringify the body
+    const headers = isFormData
+      ? {
+          ...(this.getToken() && { "x-auth-token": this.getToken(), Authorization: `Bearer ${this.getToken()}` }),
+          ...options.headers,
+        }
+      : this.getHeaders(options.headers);
+    
+    const fetchOptions = {
       method: "POST",
-      headers: this.getHeaders(options.headers),
-      body: JSON.stringify(body),
+      headers,
+      body: isFormData ? body : JSON.stringify(body),
       ...options,
+    };
+    
+    console.log(`[API] POST ${endpoint}`, {
+      hasToken: !!this.getToken(),
+      isFormData,
+      headers: fetchOptions.headers,
+      tokenPreview: this.getToken() ? this.getToken().substring(0, 20) + '...' : null,
     });
+    
+    const response = await fetch(url, fetchOptions);
     return this.handleResponse(response);
   }
 

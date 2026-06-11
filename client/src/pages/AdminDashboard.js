@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import api from "../utils/api";
+import ConfirmModal from "../components/ui/ConfirmModal";
+import { useToast } from "../components/ui/ToastContext";
 
 // ── Nav config ────────────────────────────────────────────────────────────────
 const NAV = [
@@ -71,6 +73,9 @@ function Projects() {
     }
   };
 
+  const [confirm, setConfirm] = useState(null);
+  const { addToast } = useToast();
+
   useEffect(() => { loadData(); }, []);
 
   const handleChange = (e) => {
@@ -94,12 +99,18 @@ function Projects() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this project?")) return;
-    try { 
-      await api.delete(`/admin/projects/${id}`);
-      loadData();
-    }
-    catch (err) { alert(err.message); }
+    setConfirm({ type: 'project', id, title: 'Delete this project?' });
+  };
+
+  const confirmDelete = async () => {
+    if (!confirm) return;
+    if (confirm.type !== 'project') return;
+    try {
+      await api.delete(`/admin/projects/${confirm.id}`);
+      addToast('Project deleted', { type: 'success' });
+      setConfirm(null);
+      await loadData();
+    } catch (err) { addToast(err.message || 'Delete failed', { type: 'error' }); }
   };
 
   return (
@@ -166,14 +177,24 @@ function Projects() {
           </div>
         )}
       </div>
+      <ConfirmModal
+        isOpen={!!confirm}
+        title={confirm?.title || 'Confirm'}
+        message={confirm?.title || ''}
+        onCancel={() => setConfirm(null)}
+        onConfirm={confirmDelete}
+      />
     </>
   );
 }
+
 
 function UserManager({ role, apiPath, roleLabel }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [confirm, setConfirm] = useState(null);
+  const { addToast } = useToast();
 
   const loadData = async () => {
     setLoading(true);
@@ -199,12 +220,18 @@ function UserManager({ role, apiPath, roleLabel }) {
   };
 
   const handleRemove = async (id) => {
-    if (!window.confirm(`Remove this ${roleLabel}?`)) return;
-    try { 
-      await api.delete(`/admin/${apiPath}/${id}`);
-      loadData();
-    }
-    catch (err) { alert(err.message); }
+    setConfirm({ type: 'user', id, title: `Remove this ${roleLabel}?` });
+  };
+
+  const confirmRemove = async () => {
+    if (!confirm) return;
+    if (confirm.type !== 'user') return;
+    try {
+      await api.delete(`/admin/${apiPath}/${confirm.id}`);
+      addToast(`${roleLabel} removed`, { type: 'success' });
+      setConfirm(null);
+      await loadData();
+    } catch (err) { addToast(err.message || 'Remove failed', { type: 'error' }); }
   };
 
   return (
@@ -240,6 +267,13 @@ function UserManager({ role, apiPath, roleLabel }) {
           </div>
         )}
       </div>
+        <ConfirmModal
+          isOpen={!!confirm}
+          title={confirm?.title || 'Confirm'}
+          message={confirm?.title || ''}
+          onCancel={() => setConfirm(null)}
+          onConfirm={confirmRemove}
+        />
     </>
   );
 }

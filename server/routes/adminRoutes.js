@@ -13,6 +13,7 @@ router.put("/projects/:id/assign", ctrl.assignProject);
 router.delete("/projects/:id",     ctrl.deleteProject);
 router.get("/clients",             ctrl.getClients);
 router.post("/clients",            ctrl.addClient);
+router.delete("/clients/:id",      ctrl.removeClient);
 router.get("/feedback",            ctrl.getFeedback);
 router.get("/uploads",             ctrl.getUploads);
 

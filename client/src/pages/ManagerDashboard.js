@@ -4,9 +4,9 @@ import DashboardLayout from "../components/layout/DashboardLayout";
 import api from "../utils/api";
 
 const NAV = [
-  { to: "/manager",             label: "My Projects", icon: "⬡", end: true },
-  { to: "/manager/milestones",  label: "Milestones",  icon: "◈" },
-  { to: "/manager/uploads",     label: "Photo Uploads", icon: "◎" },
+  { to: "/manager",             label: "Dashboard", icon: "⬡", end: true },
+  { to: "/manager/projects",    label: "My Projects", icon: "◈" },
+  { to: "/manager/milestones",  label: "Milestones",  icon: "◎" },
 ];
 
 // ── My Projects ───────────────────────────────────────────────────────────────
@@ -199,14 +199,20 @@ function Milestones() {
   );
 }
 
+import DashboardHome from "../components/dashboard/DashboardHome";
+const ProjectsPage = React.lazy(() => import("../components/projects/ProjectsPage"));
+const AddProject = React.lazy(() => import("./AddProject"));
+
 export default function ManagerDashboard() {
   return (
     <DashboardLayout title="Manager Dashboard" navItems={NAV}>
-      <Routes>
-        <Route index             element={<MyProjects />} />
-        <Route path="milestones" element={<Milestones />} />
-        <Route path="*"          element={<Navigate to="/manager" replace />} />
-      </Routes>
+        <Routes>
+          <Route index element={<DashboardHome />} />
+          <Route path="projects" element={<React.Suspense fallback={<div>Loading…</div>}><ProjectsPage /></React.Suspense>} />
+          <Route path="add-project" element={<React.Suspense fallback={<div>Loading…</div>}><AddProject /></React.Suspense>} />
+          <Route path="milestones" element={<Milestones />} />
+          <Route path="*" element={<Navigate to="/manager" replace />} />
+        </Routes>
     </DashboardLayout>
   );
 }
