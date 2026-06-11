@@ -1,6 +1,5 @@
 const router = require("express").Router();
-const multer = require("multer");
-const upload = multer();
+const upload = require("../middleware/upload");
 const { requireAuth, requireRole } = require("../middleware/auth");
 const ctrl = require("../controllers/managerController");
 
