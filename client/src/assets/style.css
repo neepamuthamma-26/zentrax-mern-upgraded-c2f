@@ -340,7 +340,8 @@ body.loading { overflow: hidden; }
 .services-section .section-tag {
   color: var(--gold);
   letter-spacing: 0.25em;
-  font-size: 0.75rem;
+  font-size: 1rem;
+  font-weight: 700;
   text-transform: uppercase;
 }
 .services-section .section-title {
@@ -489,7 +490,8 @@ body.loading { overflow: hidden; }
 .container { max-width: 1300px; margin: 0 auto; padding: 0 2rem; }
 
 .section-tag {
-  font-family: var(--font-head); font-size: 0.65rem;
+  font-family: var(--font-head); font-size: 1rem;
+  font-weight: 700;
   letter-spacing: 0.4em; text-transform: uppercase;
   color: var(--gold); margin-bottom: 1.2rem;
 }
@@ -612,12 +614,12 @@ body.loading { overflow: hidden; }
 .port-view {
   font-family: var(--font-head); font-size: 0.65rem;
   letter-spacing: 0.3em; text-transform: uppercase;
-  color: var(--off-white); text-decoration: none;
-  border: 1px solid rgba(240,237,230,0.7); padding: 0.7rem 1.5rem;
+  color: #000000; text-decoration: none;
+  background: #ffffff; border: 1px solid rgba(0,0,0,0.08); padding: 0.7rem 1.5rem;
   transition: border-color 0.3s, color 0.3s, background 0.3s;
   border-radius: 2px;
 }
-.port-view:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.1); }
+.port-view:hover { border-color: var(--gold); color: var(--black); background: var(--gold-light); }
 
 .port-info {
   padding: 1.5rem 0 1rem;
@@ -1439,7 +1441,8 @@ select:-webkit-autofill {
 }
 
 .prop-tag {
-  font-family: var(--font-head); font-size: 0.6rem;
+  font-family: var(--font-head); font-size: 1rem;
+  font-weight: 700;
   letter-spacing: 0.35em; text-transform: uppercase;
   color: var(--gold); margin-bottom: 0.8rem;
 }

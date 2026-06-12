@@ -71,9 +71,6 @@ function FooterSection() {
             <h4>Contact</h4>
             <ul>
               <li>
-                <a href="tel:7204656119">+91 72046 56119</a>
-              </li>
-              <li>
                 <a href="tel:7019436720">+91 70194 36720</a>
               </li>
               <li>

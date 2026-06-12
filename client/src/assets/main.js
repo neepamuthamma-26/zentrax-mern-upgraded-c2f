@@ -349,7 +349,23 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Close modal and scroll to contact on Enquire Now click
-  document.querySelector('.modal-enquire-btn').addEventListener('click', closeModal);
+  document.querySelectorAll('.modal-enquire-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      // prevent default anchor navigation so we can smoothly scroll after closing
+      try { e.preventDefault(); } catch (err) {}
+      closeModal();
+      // delay slightly to allow modal to close cleanly, then smooth-scroll
+      setTimeout(() => {
+        const el = document.getElementById('contact');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          // fallback to hash navigation
+          window.location.hash = '#contact';
+        }
+      }, 200);
+    });
+  });
 
 
   const heroBg = document.querySelector('.hero-bg');

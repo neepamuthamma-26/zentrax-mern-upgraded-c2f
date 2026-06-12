@@ -16,12 +16,6 @@ function ContactSection() {
               <div className="cinfo-val">Mon – Sat: 9:00 AM – 7:00 PM</div>
             </div>
             <div className="cinfo-item">
-              <div className="cinfo-label">Phone</div>
-              <a href="tel:7204656119" className="cinfo-val cinfo-link">
-                +91 72046 56119
-              </a>
-            </div>
-            <div className="cinfo-item">
               <div className="cinfo-label">Alternative</div>
               <a href="tel:7019436720" className="cinfo-val cinfo-link">
                 +91 70194 36720
@@ -34,7 +28,7 @@ function ContactSection() {
               </a>
             </div>
             <a
-              href="https://wa.me/917204656119"
+              href="https://wa.me/917019436720"
               className="whatsapp-contact"
               target="_blank"
               rel="noopener noreferrer"
@@ -90,8 +84,8 @@ function ContactSection() {
               Krishana building, near Nirmithi Kendra Road, Bogadi 2nd Stage North,
               Mysuru, Karnataka 570006
             </p>
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)' }}>
-              <div>Website: <a href="https://zentraxconstructions.com" target="_blank" rel="noopener noreferrer">zentraxconstructions.com</a></div>
+            <div style={{ fontSize: 13, color: 'var(--dark)' }}>
+              <div>Website: <a href="https://zentraxconstructions.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--dark)' }}>zentraxconstructions.com</a></div>
               <div>Plus code: 8J55+VF Mysuru, Karnataka</div>
             </div>
           </div>
@@ -125,7 +119,7 @@ function ContactSection() {
               </svg>
               Open in Google Maps
             </a>
-            <a href="tel:7204656119" className="btn-outline">
+            <a href="tel:7019436720" className="btn-outline">
               Call for Directions
             </a>
           </div>

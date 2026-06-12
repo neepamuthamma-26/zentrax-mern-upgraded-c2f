@@ -5,7 +5,7 @@ function NavbarSection() {
   return (
     <>
       <a
-        href="https://wa.me/917204656119"
+        href="https://wa.me/917019436720"
         className="whatsapp-btn"
         target="_blank"
         rel="noopener noreferrer"
